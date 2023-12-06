@@ -11,13 +11,13 @@ CREATE TABLE user (
 CREATE TABLE email (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
-    isValidated BOOLEAN
+    isValidated BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE phone (
     id INT PRIMARY KEY AUTO_INCREMENT,
     phone VARCHAR(255),
-    isValidated BOOLEAN
+    isValidated BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE email_user (
@@ -31,9 +31,7 @@ CREATE TABLE email_user (
 CREATE TABLE phone_user (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
-    email_id INT,
+    phone_id INT,
     FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (email_id) REFERENCES email(id)
+    FOREIGN KEY (phone_id) REFERENCES phone(id)
 );
-
--- INSERT INTO user (name) VALUES ('Daniel Espinosa');
