@@ -7,10 +7,8 @@ class Server {
         this.port = process.env.PORT;
         this.usersPath = '/api/users';
 
-        // middlewares
         this.middlewares();
 
-        // rutas de mi app
         this.routes();
     }
 
@@ -21,7 +19,7 @@ class Server {
         // body parse
         this.app.use(express.json());
 
-        // directorio público
+        // public dir
         this.app.use(express.static('public'));
     }
 

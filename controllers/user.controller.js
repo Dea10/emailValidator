@@ -3,7 +3,16 @@ const db = new DatabaseConnection();
 const dbConnection = db.setConnection();
 
 const getUsers = async (req, res) => {
-    const query = 'SELECT * FROM user;';
+    const { q } = req.query;
+    const query = `
+        SELECT name, email, phone
+        FROM user 
+        LEFT JOIN email_user ON user.id = email_user.user_id
+        LEFT JOIN email ON email_user.email_id = email.id
+        LEFT JOIN phone_user ON user.id = phone_user.user_id
+        LEFT JOIN phone ON phone_user.phone_id = phone.id
+        ${q ? `WHERE email = "${q}"` : ';'}`;
+
     const [rows] = await dbConnection.execute(query);
 
     res.json({ msg: 'get API - controller', rows })
