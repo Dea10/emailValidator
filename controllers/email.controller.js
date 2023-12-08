@@ -38,7 +38,20 @@ const startEmailVerification = async (req, res) => {
     });
 }
 
+const getVerified = async (req, res) => {
+    const { q } = req.query;
+    const query = `SELECT id, email FROM email WHERE isVerified = ${!!q ? 'true' : 'false'};`;
+
+    const [rows] = await dbConnection.execute(query);
+
+    res.json({
+        msg: 'get verified email list API - controller',
+        rows
+    });
+}
+
 module.exports = {
     verifyEmail,
-    startEmailVerification
+    startEmailVerification,
+    getVerified
 }

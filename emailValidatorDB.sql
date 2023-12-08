@@ -11,13 +11,13 @@ CREATE TABLE user (
 CREATE TABLE email (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
-    isValidated BOOLEAN NOT NULL DEFAULT false
+    isVerified BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE phone (
     id INT PRIMARY KEY AUTO_INCREMENT,
     phone VARCHAR(255),
-    isValidated BOOLEAN NOT NULL DEFAULT false
+    isVerified BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE email_user (

@@ -3,7 +3,12 @@ const db = new DatabaseConnection();
 const dbConnection = db.setConnection();
 
 const getUsers = async (req, res) => {
-    const { q } = req.query;
+    const { email, phone } = req.query;
+    const emailQuery = email ? `email = "${email}"` : '';
+    const phoneQuery = phone ? `phone = "${phone}"` : '';
+    const filterQuery = email && phone ? `WHERE ${emailQuery} AND ${phoneQuery}` :
+                        email ? `WHERE ${emailQuery}` : 
+                        phone ? `WHERE ${phoneQuery}` : ';';
     const query = `
         SELECT name, email, phone
         FROM user 
@@ -11,11 +16,11 @@ const getUsers = async (req, res) => {
         LEFT JOIN email ON email_user.email_id = email.id
         LEFT JOIN phone_user ON user.id = phone_user.user_id
         LEFT JOIN phone ON phone_user.phone_id = phone.id
-        ${q ? `WHERE email = "${q}"` : ';'}`;
+        ${filterQuery}`;
 
     const [rows] = await dbConnection.execute(query);
 
-    res.json({ msg: 'get API - controller', rows })
+    res.json({ msg: 'get users API - controller', rows })
 };
 
 const registerUser = async (req, res) => {
