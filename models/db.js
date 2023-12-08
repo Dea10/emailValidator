@@ -2,10 +2,11 @@ const mysql = require('mysql2');
 
 class DatabaseConnection {
     constructor() {
-        this.host = 'localhost';
-        this.user = 'root';
-        this.database = 'email_validator',
-        this.password = process.env.DB_PASSWORD
+        this.host = process.env.DB_HOST,
+        this.user = process.env.DB_USER,
+        this.database = process.env.DB_NAME,
+        this.password = process.env.DB_PASSWORD,
+        this.port = process.env.DB_PORT
     }
 
     setConnection() {
@@ -14,6 +15,7 @@ class DatabaseConnection {
             user: this.user,
             database: this.database,
             password: this.password,
+            port: this.port || 3306
         });
 
         return connection.promise();
