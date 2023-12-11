@@ -1,4 +1,8 @@
 # Email Validator
+
+![image](https://github.com/Dea10/emailValidator/assets/16433973/dad74f29-2d61-4a18-975b-7f3d308956ea)
+
+
 ## How to install in local
 Minimum requirements:
 - MySQL 8.x.x
