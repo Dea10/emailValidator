@@ -53,6 +53,7 @@ base url: http://localhost:8080 || https://emailvalidator-production.up.railway
 Test it with postman
 
 ![Alt text](image.png)
+
 response:
 ```
 {
@@ -75,6 +76,7 @@ body params
     "phone": "55 1111 1111"
 }
 ```
+
 response:
 ```
 {
