@@ -1,6 +1,8 @@
 const DatabaseConnection = require('../models/db');
+const CircuitBreaker = require('./services/emailServices/CircuitBreaker');
 const db = new DatabaseConnection();
 const dbConnection = db.setConnection();
+const emailService = new CircuitBreaker();
 
 const verifyEmail = async (req, res) => {
     const { email } = req.query;
@@ -16,25 +18,13 @@ const verifyEmail = async (req, res) => {
 
 const startEmailVerification = async (req, res) => {
     const { email } = req.body;
-
-    const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
-
-    const twRes = await client.verify.v2.services(process.env.SERVICE_ID)
-        .verifications
-        .create({
-            channelConfiguration: {
-                substitutions: {
-                    email_to_verify: email
-                }
-            },
-            to: email,
-            channel: 'email',
-        });
+    
+    const resp = await emailService.fire(email);
 
     res.json({
-        sid: twRes.sid,
         msg: 'email sent',
-        email
+        email,
+        resp
     });
 }
 
