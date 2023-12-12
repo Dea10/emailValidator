@@ -4,7 +4,8 @@
   "description": "by Daniel Espinosa",
   "main": "index.js",
   "scripts": {
-    "test": "mocha **/*.test.js && mocha --reporter json > reports/test-results.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "start": "node app.js"
   },
   "keywords": [],
@@ -18,8 +19,6 @@
     "twilio": "^4.19.3"
   },
   "devDependencies": {
-    "chai": "^4.3.10",
-    "mocha": "^10.2.0",
-    "supertest": "^6.3.3"
+    "jest": "^29.7.0"
   }
 }
