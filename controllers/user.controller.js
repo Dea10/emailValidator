@@ -10,7 +10,7 @@ const getUsers = async (req, res) => {
                         email ? `WHERE ${emailQuery}` : 
                         phone ? `WHERE ${phoneQuery}` : ';';
     const query = `
-        SELECT name, email, phone
+        SELECT user.id, name, email, phone
         FROM user 
         LEFT JOIN email_user ON user.id = email_user.user_id
         LEFT JOIN email ON email_user.email_id = email.id
@@ -20,7 +20,7 @@ const getUsers = async (req, res) => {
 
     const [rows] = await dbConnection.execute(query);
 
-    res.json({ msg: 'get users API - controller', rows })
+    res.json({ msg: 'get users API - controller', count: rows.length, rows })
 };
 
 const registerUser = async (req, res) => {
