@@ -5,7 +5,8 @@ USE email_validator;
 
 CREATE TABLE user (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    isActive BOOLEAN NOT NULL DEFAULT true
 );
 
 CREATE TABLE email (
@@ -77,5 +78,24 @@ BEGIN
         SELECT 'Registration successful' AS success_message;
     END;
 END//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_deactivate_user(IN userEmail VARCHAR(255))
+BEGIN
+    DECLARE user_id_result INT;
+
+    SELECT user.id INTO user_id_result
+    FROM email
+    LEFT JOIN email_user ON email.id = email_user.email_id
+    LEFT JOIN user ON user.id = email_user.user_id
+    WHERE email.email = userEmail;
+
+    IF user_id_result IS NOT NULL THEN
+        UPDATE user SET isActive = false WHERE id = user_id_result;
+    END IF;
+END //
 
 DELIMITER ;

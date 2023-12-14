@@ -10,7 +10,7 @@ const getUsers = async (req, res) => {
                         email ? `WHERE ${emailQuery}` : 
                         phone ? `WHERE ${phoneQuery}` : ';';
     const query = `
-        SELECT user.id, name, email, phone
+        SELECT user.id, name, email, phone, user.isActive
         FROM user 
         LEFT JOIN email_user ON user.id = email_user.user_id
         LEFT JOIN email ON email_user.email_id = email.id
@@ -22,6 +22,19 @@ const getUsers = async (req, res) => {
 
     res.json({ msg: 'get users API - controller', count: rows.length, rows })
 };
+
+const deactivateUser = async (req, res) => {
+    const { email } = req.body;
+    const query = `CALL sp_deactivate_user("${email}");`;
+
+    const [rows] = await dbConnection.execute(query);
+
+    res.json({
+        msg: 'deactivate - controller',
+        success: true,
+        affectedRows: rows.affectedRows
+    })
+}
 
 const registerUser = async (req, res) => {
     const { name, email, phone } = req.body;
@@ -40,36 +53,28 @@ const registerUser = async (req, res) => {
     }
 
     try {
-        await dbConnection.execute(query);
+        const [rows] = await dbConnection.execute(query);
+        if(rows[0][0].error_message) throw new Error("Duplicated user")
 
         res.json({
             msg: 'post API - controller',
             success: true,
             newUser: {
-                id: userId,
                 email,
-                phone
-            },
-            newMail: {
-                id: emailId,
-                email
-            },
-            newPhone: {
-                id: phoneId,
                 phone
             }
         });
         
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             msg: 'something went wrong',
-            error: error.sqlMessage,
-            success: false
+            success: false,
         })
     }
 }
 
 module.exports = {
     getUsers,
+    deactivateUser,
     registerUser
 }
