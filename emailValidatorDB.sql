@@ -50,41 +50,30 @@ BEGIN
     DECLARE last_email_id INT;
     DECLARE last_phone_id INT;
 
-    -- Declare an exit handler for SQL exceptions
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        -- Rollback changes on exception
         ROLLBACK;
 
-        -- Return an error message
         SELECT 'Error: Registration failed; changes rolled back' AS error_message;
     END;
 
-    -- Main logic
     BEGIN
-        -- Start a transaction
         START TRANSACTION;
 
-        -- Insert into user table
         INSERT INTO user (name) VALUES(userName);
         SET last_user_id = LAST_INSERT_ID();
 
-        -- Insert into email table
         INSERT INTO email (email) VALUES(userEmail);
         SET last_email_id = LAST_INSERT_ID();
 
-        -- Insert into phone table
         INSERT INTO phone (phone) VALUES(userPhone);
         SET last_phone_id = LAST_INSERT_ID();
 
-        -- Insert into email_user and phone_user tables
         INSERT INTO email_user (user_id, email_id) VALUES(last_user_id, last_email_id);
         INSERT INTO phone_user (user_id, phone_id) VALUES(last_user_id, last_phone_id);
 
-        -- Commit the transaction
         COMMIT;
 
-        -- Return a success message
         SELECT 'Registration successful' AS success_message;
     END;
 END//
