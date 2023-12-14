@@ -1,6 +1,6 @@
 # Email Validator
 
-![image](https://github.com/Dea10/emailValidator/assets/16433973/dad74f29-2d61-4a18-975b-7f3d308956ea)
+![image](https://github.com/Dea10/emailValidator/assets/16433973/24da7cee-19b5-45fa-a77e-ad1bbcf4a619)
 
 
 ## How to install in local
