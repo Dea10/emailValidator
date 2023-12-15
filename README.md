@@ -43,6 +43,8 @@ base url: http://localhost:8080 || https://emailvalidator-production.up.railway
     - name: string
     - email: string
     - phone: string
+- (POST) /api/users/deactivateEmail
+    - email: string
 - (POST) /api/email/startEmailVerification
     - email: string
 - (GET) /api/email/verifyEmail
